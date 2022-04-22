@@ -10,6 +10,8 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { throttleTime } from 'rxjs';
+import { Tuits } from './tuits.entity';
 import { TuitsService } from './tuits.service';
 
 @Controller('tuits')
@@ -20,29 +22,28 @@ export class TuitsController {
     } 
 
   @Get()
-  gettwits(@Query() filterQuery): string {
-    const { chani, oso } = filterQuery;
-    return `the params is ${chani}  ${oso}`;
+  gettwits(@Query() filterQuery): Tuits[] {
+    return this.tuitsService.getTuits();
   }
 
   @Get('/:id')
-  getforid(@Param('id') id: string) {
-    return `el id ${id}`;
+  getforid(@Param('id') id: string):Tuits {
+    return this.tuitsService.getTuit(id);
   }
 
   @Post()
   @HttpCode(HttpStatus.NO_CONTENT)
-  createTuit(@Body('message') message: string) {
-    return `you twits is ${message}`;
+  createTuit(@Body('message') message: string) :void{
+    return this.tuitsService.createTuit(message)
   }
 
   @Patch(':id')
-  updateTuit(@Param('id') id: string, @Body() tuit) {
-    return `you twits is ${id} is update`;
+  updateTuit(@Param('id') id: string, @Body() tuit):Tuits {
+    return this.updateTuit(id,tuit)
   }
 
   @Delete(':id')
-  deleteTuit(@Param('id') id: string) {
-    return `you twits is ${id} is deleted`;
+  deleteTuit(@Param('id') id: string) :void{
+    return this.tuitsService.removeTuit(id);
   }
 }

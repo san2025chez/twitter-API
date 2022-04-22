@@ -1,4 +1,4 @@
-export class Tuit{
+export class Tuits{
     id:string;
     message:string;
 }
