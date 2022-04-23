@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -23,12 +24,19 @@ export class TuitsController {
 
   @Get()
   gettwits(@Query() filterQuery): Tuits[] {
+    console.log("igreso");
+    
     return this.tuitsService.getTuits();
   }
 
   @Get('/:id')
   getforid(@Param('id') id: string):Tuits {
-    return this.tuitsService.getTuit(id);
+    const tuit= this.tuitsService.getTuit(id);
+    if (!tuit) {
+
+      throw new NotFoundException('Resource not found');
+    }
+    return tuit;
   }
 
   @Post()
