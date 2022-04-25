@@ -1,3 +1,5 @@
+import { CreateTuitDto } from './dto/create-tuit.dto';
+import { UpdateTuitDto } from './dto/update-tuit.dto';
 import {
   Body,
   Controller,
@@ -40,13 +42,17 @@ export class TuitsController {
   }
 
   @Post()
-  @HttpCode(HttpStatus.NO_CONTENT)
-  createTuit(@Body('message') message: string) :void{
+ /*  @HttpCode(HttpStatus.NO_CONTENT) */
+  createTuit(@Body() message: CreateTuitDto) :void{
+    console.log("ingreso a crear");
+    
+    console.log(message instanceof CreateTuitDto);
+    
     return this.tuitsService.createTuit(message)
   }
 
   @Patch(':id')
-  updateTuit(@Param('id') id: string, @Body() tuit):Tuits {
+  updateTuit(@Param('id') id: string, @Body() tuit: UpdateTuitDto):Tuits {
     return this.updateTuit(id,tuit)
   }
 

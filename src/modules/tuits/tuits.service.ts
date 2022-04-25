@@ -1,3 +1,5 @@
+import { CreateTuitDto } from './dto/create-tuit.dto';
+import { UpdateTuitDto } from './dto/update-tuit.dto';
 import { Tuits } from './tuits.entity';
 import { Injectable } from '@nestjs/common';
 
@@ -18,14 +20,16 @@ getTuit(id:string):Tuits{
     return this.tuits.find((item) => item.id ==id)
 }
 
-createTuit(message:string){
+createTuit({message}:CreateTuitDto){
+    console.log("ingreso a service");
+    
     this.tuits.push({
         id:(Math.floor(Math.random() * 2000) +1).toString(),
         message
     })
 }
 
-updateTuit(id:string,message:string){
+updateTuit(id:string,{message}:UpdateTuitDto){
     const tuit= this.getTuit(id)
         tuit.message= message;
         return tuit;
